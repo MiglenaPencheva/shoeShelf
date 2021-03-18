@@ -1,0 +1,31 @@
+<main>
+
+    <h1 class="text-center">Products</h1>
+    <section>
+        <a href="/product/create" class="btn btn-warning ">Create Product</a>
+        <form class="search float-right" method="GET">
+            <label>Search: </label>
+            <input type="text" name="search">
+            <input type="submit" class="btn btn-primary" value="Search">
+        </form>
+    </section>
+
+    {{#if products}}
+
+    <div class="container mt-3">
+        <div class="row ">
+            <div class="card-deck d-flex justify-content-center">
+
+                {{#each products}}
+                    {{> product}}
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+
+    {{else}}
+        <h3 class="text-center">No products...</h3>
+    {{/if}}
+
+</main>
