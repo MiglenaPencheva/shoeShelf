@@ -50,7 +50,7 @@ router.post('/register', isGuest, async (req, res) => {
 
 router.get('/logout', isLogged, (req, res) => {
     res.clearCookie(COOKIE_NAME);
-    res.redirect('/');
+    res.redirect('/auth/login');
 });
 
 module.exports = router;
