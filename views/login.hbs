@@ -1,14 +1,19 @@
 <main>
-    <form class="text-center border border-light p-5" method="POST">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" placeholder="Username" name="username" value="">
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" placeholder="Password" name="password" value="">
+    <h1>Login</h1>
+    <p class="form-info">Don't have account?
+        <a href="/auth/register">Register now</a> and fix that!
+    </p>
+    <form method="POST">
+        <div>
+            <input type="text" name="email" placeholder="Email...">
         </div>
 
-        <button type="submit" class="btn btn-primary">Login</button>
+        <div>
+            <input type="password" name="password" placeholder="Password...">
+        </div>
+        <div>
+            <p class="message"></p>
+            <button>Login</button>
+        </div>
     </form>
 </main>

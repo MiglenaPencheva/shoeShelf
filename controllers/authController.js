@@ -8,13 +8,13 @@ router.get('/login', isGuest, (req, res) => {
 });
 
 router.post('/login', isGuest, async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-        if (!username) throw { message: 'Username required' };
+        if (!email) throw { message: 'Email required' };
         if (!password) throw { message: 'Password required' };
         
-        let token = await login(username, password);
+        let token = await login(email, password);
         res.cookie(COOKIE_NAME, token, { httpOnly: true });
         res.redirect('/');
 
@@ -28,17 +28,18 @@ router.get('/register', isGuest, (req, res) => {
 });
 
 router.post('/register', isGuest, async (req, res) => {
-    let { username, password, repeatPassword } = req.body;
+    let { email, fullName, password, rePassword } = req.body;
     
     try {
-        if (!username) throw { message: 'Username required' };
+        if (!email) throw { message: 'Email required' };
+        if (!fullName) fullName = '';
         if (!password) throw { message: 'Password required' };
-        if (!repeatPassword) throw { message: 'Password required' };
-        if (password != repeatPassword) throw { message: 'Password missmatch!' };
+        if (!rePassword) throw { message: 'Password required' };
+        if (password != rePassword) throw { message: 'Password missmatch!' };
         
-        await register(username, password);
+        await register(email, password);
 
-        let token = await login(username, password);
+        let token = await login(email, password);
         res.cookie(COOKIE_NAME, token, { httpOnly: true });
         res.redirect('/');
 

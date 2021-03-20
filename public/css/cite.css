@@ -364,3 +364,18 @@ form div button:hover {
     text-decoration: underline var(--main-orange);
     cursor: pointer;
 }
+
+.notifications {
+    background-color: rgb(234, 21, 55);
+    margin: 0 auto;
+    text-align: center;
+    padding: 1%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-radius: 6px;
+    color: white;
+    font-style: italic;
+    text-decoration: underline;
+    box-shadow: 0 5px 10px #cccccc;
+    width: 100%;
+}

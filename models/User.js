@@ -3,27 +3,29 @@ const bcrypt = require('bcrypt');
 const { SALT_ROUNDS } = require('../config/config');
 
 const userScheme = new mongoose.Schema({
-    username: {
+    email: {
         type: String,
-        required: ['Username is required'],
+        required: ['Email is required'],
         unique: true,
-        trim: true,
-        minlength: [4, 'Username should be at least 4 characters long'],
+        minlength: [3, 'Email should be at least 3 characters long'],
         validate: {
-            validator: /^[a-zA-Z0-9]+$/,
-            message: 'Username should contains only english letters and/or digits'
+            validator: /^\w+([\.-_]?\w+)*@\w+([\.-]?\w+)*(\.[a-z]{2,3})+$/,
+            message: 'Email should contains only english letters and/or digits'
         },
     },
     password: {
         type: String,
         required: true,
         trim: true,
-        minlength: [6, 'Password should be at least 6 characters long'],
+        minlength: [3, 'Password should be at least 3 characters long'],
         validate: {
             validator: /^[a-zA-Z0-9]+$/,
             message: 'Password should contains only english letters and/or digits'
         },
-    }
+    },
+    fullName: {
+        type: String,
+    },
 });
 
 userScheme.pre('save', async function (next) {
