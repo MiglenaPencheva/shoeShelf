@@ -1,29 +1,29 @@
 <main>
-    <div class="container">
-        <h1 class="my-4">Title : {{product.title}}</h1>
-
-        <div class="row">
-
-            <div class="col-md-8">
-                <img class="img-fluid" src="{{product.imageUrl}}" alt="{{product.title}}" />
+    <div class="offer-details">
+        <h1>{{product.brand}} {{product.title}}</h1>
+        <div class="info">
+            <img src="{{product.imageUrl}}" alt="">
+            <div class="description">{{product.description}}
+                <br>
+                <br>
+                <p> <strong>Buyers:</strong> {{product.boughtBy.length}}</p>
+                <br>
+                <p class="price">${{product.price}}</p>
             </div>
+        </div>
 
-            <div class="col-md-4 text-center">
-                <h3 class="my-3">Description</h3>
-                <p>{{product.title}} is {{product.description}}</p>
-
-                {{#if product.isOwn}}
-                    <a class="btn btn-danger" href="/product/{{product._id}}/delete">Delete</a>
-                    <a class="btn btn-warning" href="/product/{{product._id}}/edit">Edit</a>
-
+        <div class="actions">
+            {{#if product.isOwn}}
+                <a href="/product/{{product._id}}/edit">Edit</a>
+                <a href="/product/{{product._id}}/delete">Delete</a>
+            {{else}}
+                {{#if product.isBought}}
+                    <span>You bought it</span>
                 {{else}}
-                    {{#if product.isLiked}}
-                        <span class="enrolled-span">You like it</span>
-                    {{else}}
-                        <a class="btn btn-primary" href="/product/{{product._id}}/like">Like</a>
-                    {{/if}}
+                    <a href="/product/{{product._id}}/buy">Buy</a>
                 {{/if}}
-            </div>
+            {{/if}}
+
         </div>
     </div>
 </main>

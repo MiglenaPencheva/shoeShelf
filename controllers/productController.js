@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { create, getOne, like, edit, remove } = require('../services/productService');
+const { create, getOne, buy, edit, remove } = require('../services/productService');
 
 router.get('/create', (req, res) => {
     res.render('create');
@@ -10,8 +10,13 @@ router.post('/create', async (req, res) => {
 
     try {
         if (!productData.title) throw { message: 'Title is required' };
-        if (!productData.description) throw { message: 'Description is required' };
+        if (!productData.price) throw { message: 'Price is required' };
+        productData.price = productData.price.toString().replace(',', '.');
+        if (!Number(productData.price)) throw { message: 'Invalid price' };
+        productData.price = Number(productData.price).toFixed(2);
         if (!productData.imageUrl) throw { message: 'Image is required' };
+        if (!productData.description) throw { message: 'Description is required' };
+        if (!productData.brand) throw { message: 'Brand is required' };
 
         await create(productData, req.user._id);
         res.redirect('/');
@@ -25,10 +30,10 @@ router.get('/:id/details', async (req, res) => {
     res.render('details', { product });
 });
 
-router.get('/:id/like', async (req, res) => {
+router.get('/:id/buy', async (req, res) => {
     try {
-        let product = await like(req.params.id, req.user._id);
-        res.render('details', { product }); 
+        await buy(req.params.id, req.user._id);
+        res.redirect(`/product/${req.params.id}/details`);
     } catch (error) {
         res.render('details', { error });
     }
@@ -43,8 +48,13 @@ router.post('/:id/edit', async (req, res) => {
     let productData = extractData(req);
     try {
         if (!productData.title) throw { message: 'Title is required' };
+        if (!productData.price) throw { message: 'Price is required' };
+        productData.price = productData.price.toString().replace(',', '.');
+        if (!Number(productData.price)) throw { message: 'Invalid price' };
+        productData.price = Number(productData.price).toFixed(2);
         if (!productData.description) throw { message: 'Description is required' };
         if (!productData.imageUrl) throw { message: 'Image is required' };
+        if (!productData.brand) throw { message: 'Brand is required' };
 
         const product = await getOne(req.params.id, req.user._id);
         if (product.creator == req.user._id) {
@@ -69,12 +79,15 @@ router.get('/:id/delete', async (req, res) => {
 });
 
 function extractData(req) {
-    let { title, description, imageUrl } = req.body;
+    let { title, price, imageUrl, description, brand } = req.body;
 
     return productData = {
         title,
-        description,
+        price,
         imageUrl,
+        description,
+        brand,
+        createdAt: new Date(),
     };
 }
 

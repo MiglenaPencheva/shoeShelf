@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { register, login } = require('../services/authService');
+const { getMy } = require('../services/productService');
 const { COOKIE_NAME } = require('../config/config');
 const { isLogged, isGuest } = require('../middlewares/authMiddleware');
 
@@ -51,6 +52,16 @@ router.post('/register', isGuest, async (req, res) => {
 router.get('/logout', isLogged, (req, res) => {
     res.clearCookie(COOKIE_NAME);
     res.redirect('/auth/login');
+});
+
+router.get('/profile', isLogged, async (req, res) => {
+    let myProducts = await getMy(req.user._id);
+    console.log('controler: ');
+    console.log(myProducts.areBought);
+    console.log(myProducts.count);
+    console.log(myProducts);
+    
+    res.render('profile', myProducts);
 });
 
 module.exports = router;

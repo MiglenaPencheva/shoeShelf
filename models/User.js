@@ -26,6 +26,10 @@ const userScheme = new mongoose.Schema({
     fullName: {
         type: String,
     },
+    bought: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Product',
+    }],
 });
 
 userScheme.pre('save', async function (next) {

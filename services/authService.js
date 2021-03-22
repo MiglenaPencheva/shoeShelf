@@ -5,7 +5,7 @@ const { SECRET } = require('../config/config');
 
 async function register(email, password) {
     let existing = await User.findOne({ email });
-    if (existing) throw { message:  'Email already exists' };
+    if (existing) throw { message: 'Email already exists' };
 
     let user = new User({ email, password });
     return user.save();
@@ -25,5 +25,5 @@ async function login(email, password) {
 
 module.exports = {
     register,
-    login
+    login,
 };
