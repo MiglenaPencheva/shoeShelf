@@ -1,21 +1,30 @@
 <main>
-    <div class="user-info">
-        <div>
-            <p>Email: <span>{{email}}</span></p> |
-            <p>My offers: <span>[{{count}}]</span></p> |
-            <p><a href="/auth/logout">Logout</a></p>
+
+    {{#if user}}
+
+        <div class="user-info">
+            <div>
+                <p>Email: <span>{{user.email}}</span></p> |
+                <p>My offers: <span>[{{myProducts.count}}]</span></p> |
+                <p><a href="/auth/logout">Logout</a></p>
+            </div>
+
+            {{#if myProducts}}
+
+                <div class="shoes">
+                    {{#each myProducts}}
+                        {{> myProduct}}
+                    {{/each}}  
+                </div>
+                    <p class="total-profit">Total profit: <span>${{myProducts.total}}</span></p>
+           
+            {{else}}
+           
+                <h1>No shoes bought...</h1>
+           
+            {{/if}}
         </div>
 
-        {{#if areBought}}
-            {{#each myProducts}}
-                <div class="shoes">
-                    <p>ehooo</p>
-                    {{> myProduct}}
-                </div>
-                <p class="total-profit">Total profit: <span>$</span></p>
-            {{/each}}        
-        {{else}}
-            <h1>No shoes bought...</h1>
-        {{/if}}
-    </div>
+    {{/if}}
+
 </main>

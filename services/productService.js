@@ -1,5 +1,4 @@
 const Product = require('../models/Product');
-// const User = require('../models/User');
 
 async function getAll(query) {
     return await Product
@@ -18,15 +17,15 @@ async function getOne(productId, userId) {
 }
 
 async function getMy(userId) {
-    let myProducts = await Product.find({ boughtBy: userId } );
-    if (myProducts) {
-        myProducts.areBought = myProducts.length > 0;
-        myProducts.count = myProducts.length;
-        // myProducts.total = myProducts.reduce((a, b) => a + b, 0);
+    let myProducts = await Product.find({ boughtBy: userId } ).lean();
+    
+    myProducts.count = myProducts.length;
+    myProducts.total = 0;
+    for (const p of myProducts) {
+        myProducts.total += Number(p.price);
     }
-    console.log('service: ');
-    console.log(myProducts.areBought);
-    console.log(myProducts.count);
+    myProducts.total = myProducts.total.toFixed(2);
+
     return myProducts;
 }
 

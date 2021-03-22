@@ -56,12 +56,7 @@ router.get('/logout', isLogged, (req, res) => {
 
 router.get('/profile', isLogged, async (req, res) => {
     let myProducts = await getMy(req.user._id);
-    console.log('controler: ');
-    console.log(myProducts.areBought);
-    console.log(myProducts.count);
-    console.log(myProducts);
-    
-    res.render('profile', myProducts);
+    res.render('profile', { myProducts });
 });
 
 module.exports = router;
